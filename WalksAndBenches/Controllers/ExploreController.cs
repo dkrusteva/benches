@@ -10,28 +10,18 @@ namespace WalksAndBenches.Controllers
 {
     public class ExploreController : Controller
     {
-
-        private readonly IAssetService walksService;
-        //private readonly BenchContext _context;
-        private readonly IConfiguration _configuration;
         private readonly IStorageService _storage;
 
-        public ExploreController(IAssetService service, IConfiguration configuration, IStorageService storage)
+        public ExploreController(IStorageService storage)
         {
-            walksService = service;
-            //_context = context;
-            _configuration = configuration;
             _storage = storage;
         }
-
-
 
         public async Task<IActionResult> Explore()
         {
             var walks = new List<WalkToDisplay>();
-
             var blobs = await _storage.GetBlobs();
-            var urls = new List<Uri>();
+
             foreach (var blob in blobs)
             {
                 await blob.FetchAttributesAsync();
@@ -46,11 +36,9 @@ namespace WalksAndBenches.Controllers
                     SubmittedBy = s,
                     Url = blob.Uri
                 };
-
                 walks.Add(walk);
             }
 
-            //var results = _context.Walks.ToList();
             return View(walks);
         }
     }

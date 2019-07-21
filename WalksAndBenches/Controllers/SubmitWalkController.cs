@@ -10,16 +10,13 @@ namespace WalksAndBenches.Controllers
     public class SubmitWalkController : Controller
     {
         private readonly IAssetService walksService;
-        private readonly IConfiguration _configuration;
         private readonly IStorageService _storage;
 
-        public SubmitWalkController(IAssetService service, IConfiguration configuration, IStorageService storage)
+        public SubmitWalkController(IAssetService service, IStorageService storage)
         {
             walksService = service;
-            _configuration = configuration;
             _storage = storage;
         }
-
 
         [HttpGet("submitWalk")]
         public IActionResult SubmitWalk()
