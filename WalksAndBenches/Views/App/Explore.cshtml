@@ -1,0 +1,26 @@
+﻿@model IEnumerable<WalkToDisplay>
+@{
+    ViewBag.Title = "Explore walks";
+}
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-6">
+            <div class="border bg-light rounded p-1 m-1">
+                <div><img src="@(p.Url)" class="img-responsive img-explore" /></div>
+                <div class="walk-info">
+                    <h3>@p.Walk</h3>
+                    <ul>
+                        <li>Place: UoB</li>
+                        <li>Walk: circular</li>
+                        <li>Submitted by: @p.SubmittedBy</li>
+                        <li>Description: @p.Description</li>
+                    </ul>
+                </div>
+                <div class="walk-button">
+                    <button class="btn btn-success">View</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

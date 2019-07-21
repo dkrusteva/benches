@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Walks>
+@{
+    ViewBag.Title = "Go offroad!";
+}
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-10 offset-md-1  mb-3 mt-3">
+            <div class="border bg-light rounded p-1 walk-parent">
+                <div><img src="~/images/@(p.Url).jpg" class="img-responsive img-offroad" /></div>
+                <div class="walk-info">
+                    <h3>@p.WalkName</h3>
+                    <ul>
+                        <li>Place: @p.Location</li>
+                        <li>Walk: circular</li>
+                        <li>Submitted by: @p.SubmitterName</li>
+                    </ul>
+
+                    <h4>Description</h4>
+                    <p>@p.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
