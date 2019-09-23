@@ -25,7 +25,7 @@ namespace WalksAndBenches.Services
             var connectionString = _storageConfig.ConnectionString;
             if (!CloudStorageAccount.TryParse(connectionString, out CloudStorageAccount storageAccount))
             {
-                Console.WriteLine("Unable to parse connection string");
+                Console.WriteLine("Unable to parse connection string. Log message");
             }
 
             var blobClient = storageAccount.CreateCloudBlobClient();
