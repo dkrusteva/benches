@@ -27,6 +27,10 @@ namespace WalksAndBenches.Services
             if (!CloudStorageAccount.TryParse(connectionString, out CloudStorageAccount storageAccount))
             {
                 Console.WriteLine("Unable to parse connection string. Log message");
+                throw new ArgumentException("Unable to parse connection string. Log message");
+                // Question - at this point the development exceptions page is not available yet
+                // so message will not be displayed in a useful way. Is is still needed here?
+                // Furthermore, the Async call below can fail if the container is not up as well
             }
 
             var blobClient = storageAccount.CreateCloudBlobClient();
