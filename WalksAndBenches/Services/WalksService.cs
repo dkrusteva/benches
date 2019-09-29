@@ -31,6 +31,10 @@ namespace WalksAndBenches.Services
                     _logger.LogInformation($"Walk: {walk.Walk}, by: {walk.Name} added.");
                 }
             }
+            else
+            {
+                throw new ArgumentNullException("Image", "The supplied model does not have an image");
+            }
         }
 
         public async Task<List<WalkToDisplay>> GetWalksToDisplayAsync()
