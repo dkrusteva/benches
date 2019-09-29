@@ -8,12 +8,12 @@ namespace WalksAndBenches.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public IActionResult About()
         {
-            return View();
+            return View("About");
         }
     }
 }

@@ -9,13 +9,11 @@ namespace WalksAndBenches.Controllers
 {
     public class SubmitWalkController : Controller
     {
-        private readonly IAssetService walksService;
-        private readonly IStorageService _storage;
+        private readonly IAssetService _assets;
 
-        public SubmitWalkController(IAssetService service, IStorageService storage)
+        public SubmitWalkController(IAssetService assets)
         {
-            walksService = service;
-            _storage = storage;
+            _assets = assets;
         }
 
         [HttpGet("submitWalk")]
@@ -29,19 +27,9 @@ namespace WalksAndBenches.Controllers
         {
             if (ModelState.IsValid)
             {
-                walksService.SaveWalk(model);
+                await _assets.SaveWalkAsync(model);
                 ViewBag.UserMessage = "Walk saved";
                 ModelState.Clear();
-
-                if (model.Image != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.Image.CopyToAsync(memoryStream);
-                        memoryStream.Position = 0;
-                        await _storage.Save(memoryStream, model);
-                    }
-                }
             }
 
             return View();

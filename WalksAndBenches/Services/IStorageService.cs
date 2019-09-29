@@ -9,8 +9,9 @@ namespace WalksAndBenches.Services
     public interface IStorageService
     {
         Task ConfigureBlobStorage();
-        Task<IEnumerable<string>> GetNames();
+
         Task Save(Stream filestream, WalkModel model);
+
         Task<List<CloudBlockBlob>> GetBlobs();
     }
 }
