@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace WalksAndBenches.Services
 {
@@ -45,22 +46,28 @@ namespace WalksAndBenches.Services
 
             foreach (var blob in blobs)
             {
-                await blob.FetchAttributesAsync();
-                blob.Metadata.TryGetValue("description", out var d);
-                blob.Metadata.TryGetValue("name", out var n);
-                blob.Metadata.TryGetValue("submitter", out var s);
-
-                var walk = new WalkToDisplay()
-                {
-                    Description = d,
-                    Walk = n,
-                    SubmittedBy = s,
-                    Url = blob.Uri
-                };
+                var walk = await MapBlobToWalkToDisplay(blob);
                 walks.Add(walk);
             }
 
             return walks;
+        }
+
+        private async Task<WalkToDisplay> MapBlobToWalkToDisplay(CloudBlockBlob blob)
+        {
+            await blob.FetchAttributesAsync();
+            blob.Metadata.TryGetValue("description", out var d);
+            blob.Metadata.TryGetValue("name", out var n);
+            blob.Metadata.TryGetValue("submitter", out var s);
+
+            var walk = new WalkToDisplay()
+            {
+                Description = d,
+                Walk = n,
+                SubmittedBy = s,
+                Url = blob.Uri
+            };
+            return walk;
         }
     }
 }

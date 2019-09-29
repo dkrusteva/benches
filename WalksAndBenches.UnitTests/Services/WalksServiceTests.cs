@@ -17,6 +17,11 @@ namespace WalksAndBenches.UnitTests.Services
 {
     public class WalksServiceTests
     {
+        private const string submittedBy = "Mike";
+        private const string walk = "walk with a bench";
+        private const string description = "A nice bench!";
+        private const string url = "http://bench.com/contaitner/file.ext";
+
         private IAssetService _target;
         private Mock<ILogger<WalksService>> _logger;
         private Mock<IStorageService> _storage;
@@ -35,8 +40,8 @@ namespace WalksAndBenches.UnitTests.Services
             // Arrange
             var file = new Mock<IFormFile>();
             var walkModel = new WalkModel {
-                Name = "Mike",
-                Walk = "NiceWalk",
+                Name = submittedBy,
+                Walk = walk,
                 Image = file.Object };
 
             // Act
@@ -52,8 +57,8 @@ namespace WalksAndBenches.UnitTests.Services
             // Arrange
             var walkModel = new WalkModel
             {
-                Name = "Mike",
-                Walk = "NiceWalk"
+                Name = submittedBy,
+                Walk = walk
             };
 
             // Act and Assert
@@ -66,17 +71,22 @@ namespace WalksAndBenches.UnitTests.Services
             // Arrange
             var blockblob = new Mock<CloudBlockBlob>(
                 MockBehavior.Loose,
-                new Uri("http://bench.com/contaitner/file.ext"),
+                new Uri(url),
                 new StorageCredentials("fakeaccoutn", Convert.ToBase64String(Encoding.Unicode.GetBytes("fakekeyval")), "fakekeyname"));
-            var blobs = new List<CloudBlockBlob> { blockblob.Object };
-            _storage.Setup(m => m.GetBlobs()).ReturnsAsync(blobs);
+            blockblob.Object.Metadata.Add("name", walk);
+            blockblob.Object.Metadata.Add("description", description);
+            blockblob.Object.Metadata.Add("submitter", submittedBy);
+            _storage.Setup(m => m.GetBlobs()).ReturnsAsync(new List<CloudBlockBlob> { blockblob.Object });
 
             // Act
             var result = await _target.GetWalksToDisplayAsync();
 
             // Assert
             var element = result.First();
-            Assert.AreEqual("http://bench.com/contaitner/file.ext", element.Url.ToString());
+            Assert.AreEqual(url, element.Url.ToString());
+            Assert.AreEqual(submittedBy, element.SubmittedBy);
+            Assert.AreEqual(walk, element.Walk);
+            Assert.AreEqual(description, element.Description);
         }
     }
 }
