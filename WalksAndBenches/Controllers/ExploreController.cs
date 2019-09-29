@@ -10,34 +10,16 @@ namespace WalksAndBenches.Controllers
 {
     public class ExploreController : Controller
     {
-        private readonly IStorageService _storage;
+        private readonly IAssetService _assets;
 
-        public ExploreController(IStorageService storage)
+        public ExploreController(IAssetService assets)
         {
-            _storage = storage;
+            _assets = assets;
         }
 
         public async Task<IActionResult> Explore()
         {
-            var walks = new List<WalkToDisplay>();
-            var blobs = await _storage.GetBlobs();
-
-            foreach (var blob in blobs)
-            {
-                await blob.FetchAttributesAsync();
-                blob.Metadata.TryGetValue("description", out var d);
-                blob.Metadata.TryGetValue("name", out var n);
-                blob.Metadata.TryGetValue("submitter", out var s);
-
-                var walk = new WalkToDisplay()
-                {
-                    Description = d,
-                    Walk = n,
-                    SubmittedBy = s,
-                    Url = blob.Uri
-                };
-                walks.Add(walk);
-            }
+            var walks = await _assets.GetWalksToDisplayAsync();
 
             return View(walks);
         }

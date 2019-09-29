@@ -46,27 +46,6 @@ namespace WalksAndBenches.Services
             await _blobContainer.SetPermissionsAsync(permissions);
         }
 
-        public async Task<IEnumerable<string>> GetNames()
-        {
-            List<string> names = new List<string>();
-
-            BlobContinuationToken continuationToken = null;
-            BlobResultSegment resultSegment = null;
-
-            do
-            {
-                resultSegment = await _blobContainer.ListBlobsSegmentedAsync(continuationToken);
-
-                names.AddRange(resultSegment.Results.OfType<ICloudBlob>().Select(b => b.Name));
-
-                continuationToken = resultSegment.ContinuationToken;
-            } while (continuationToken != null);
-
-
-            return names;
-        }
-
-
         public async Task<List<CloudBlockBlob>> GetBlobs()
         {
             var blobs = new List<CloudBlockBlob>();
