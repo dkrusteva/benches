@@ -18,9 +18,9 @@ namespace WalksAndBenches.UnitTests.Services
     public class WalksServiceTests
     {
         private const string submittedBy = "Mike";
-        private const string walk = "walk with a bench";
+        private const string walkName = "walk with a bench";
         private const string description = "A nice bench!";
-        private const string url = "http://bench.com/contaitner/file.ext";
+        private const string storageUrl = "http://bench.com/contaitner/file.ext";
 
         private IAssetService _target;
         private Mock<ILogger<WalksService>> _logger;
@@ -40,9 +40,9 @@ namespace WalksAndBenches.UnitTests.Services
             // Arrange
             var file = new Mock<IFormFile>();
             var walkModel = new WalkModel {
-                Name = submittedBy,
-                Walk = walk,
-                Image = file.Object };
+                SubmittedBy = submittedBy,
+                WalkName = walkName,
+                UploadedImage = file.Object };
 
             // Act
             await _target.SaveWalkAsync(walkModel);
@@ -52,13 +52,13 @@ namespace WalksAndBenches.UnitTests.Services
         }
 
         [Test]
-        public async Task SaveWalkAsync_WithInvalidImage_ThrowsException()
+        public async Task SaveWalkAsync_WithInvalidUploadedImage_ThrowsException()
         {
             // Arrange
             var walkModel = new WalkModel
             {
-                Name = submittedBy,
-                Walk = walk
+                SubmittedBy = submittedBy,
+                WalkName = walkName
             };
 
             // Act and Assert
@@ -71,11 +71,11 @@ namespace WalksAndBenches.UnitTests.Services
             // Arrange
             var blockblob = new Mock<CloudBlockBlob>(
                 MockBehavior.Loose,
-                new Uri(url),
+                new Uri(storageUrl),
                 new StorageCredentials("fakeaccoutn", Convert.ToBase64String(Encoding.Unicode.GetBytes("fakekeyval")), "fakekeyname"));
-            blockblob.Object.Metadata.Add("name", walk);
+            blockblob.Object.Metadata.Add("walkname", walkName);
             blockblob.Object.Metadata.Add("description", description);
-            blockblob.Object.Metadata.Add("submitter", submittedBy);
+            blockblob.Object.Metadata.Add("submittedby", submittedBy);
             _storage.Setup(m => m.GetBlobs()).ReturnsAsync(new List<CloudBlockBlob> { blockblob.Object });
 
             // Act
@@ -83,9 +83,9 @@ namespace WalksAndBenches.UnitTests.Services
 
             // Assert
             var element = result.First();
-            Assert.AreEqual(url, element.Url.ToString());
+            Assert.AreEqual(storageUrl, element.StorageUrl.ToString());
             Assert.AreEqual(submittedBy, element.SubmittedBy);
-            Assert.AreEqual(walk, element.Walk);
+            Assert.AreEqual(walkName, element.WalkName);
             Assert.AreEqual(description, element.Description);
         }
     }

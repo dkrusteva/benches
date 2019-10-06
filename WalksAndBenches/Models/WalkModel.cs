@@ -10,11 +10,11 @@ namespace WalksAndBenches.Models
     public class WalkModel
     {
         [Required]
-        public string Walk { get; set; }
+        public string WalkName { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string SubmittedBy { get; set; }
         public string Description { get; set; }
         [Required]
-        public IFormFile Image { get; set; }
+        public IFormFile UploadedImage { get; set; }
     }
 }
