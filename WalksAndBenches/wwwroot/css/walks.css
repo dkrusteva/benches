@@ -7,6 +7,11 @@
     width: auto;
 }
 
+.img-broken {
+    width: 100%;
+    height: auto;
+}
+
 .img-explore {
     position: relative;
     float: left;

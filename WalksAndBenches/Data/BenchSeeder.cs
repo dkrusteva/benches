@@ -16,13 +16,11 @@ namespace WalksAndBenches.Data
     {
         private readonly BenchContext _ctx;
         private readonly IHostingEnvironment _hosting;
-        private readonly IStorageService _storage;
 
-        public BenchSeeder(BenchContext ctx, IHostingEnvironment hosting, IStorageService storage)
+        public BenchSeeder(BenchContext ctx, IHostingEnvironment hosting)
         {
             _ctx = ctx;
             _hosting = hosting;
-            _storage = storage;
         }
 
         public void Seed()
