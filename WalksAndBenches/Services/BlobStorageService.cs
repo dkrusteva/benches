@@ -67,17 +67,17 @@ namespace WalksAndBenches.Services
 
         public async Task Save(Stream filestream, WalkModel model)
         {
-            CloudBlockBlob blockblob = _blobContainer.GetBlockBlobReference(model.Walk);
+            CloudBlockBlob blockblob = _blobContainer.GetBlockBlobReference(model.WalkName);
 
             blockblob.Properties.ContentType = "image/jpg";
 
-            if (!string.IsNullOrWhiteSpace(model.Walk))
+            if (!string.IsNullOrWhiteSpace(model.WalkName))
             {
-                blockblob.Metadata.Add("name", model.Walk);
+                blockblob.Metadata.Add("walkname", model.WalkName);
             }
-            if (!string.IsNullOrWhiteSpace(model.Name))
+            if (!string.IsNullOrWhiteSpace(model.SubmittedBy))
             {
-                blockblob.Metadata.Add("submitter", model.Name);
+                blockblob.Metadata.Add("submittedby", model.SubmittedBy);
             }
             if (!string.IsNullOrWhiteSpace(model.Description))
             {

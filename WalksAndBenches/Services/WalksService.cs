@@ -22,14 +22,14 @@ namespace WalksAndBenches.Services
 
         public async Task SaveWalkAsync(WalkModel walk)
         {
-            if (walk.Image != null)
+            if (walk.UploadedImage != null)
             {
                 using (var memoryStream = new MemoryStream())
                 {
-                    await walk.Image.CopyToAsync(memoryStream);
+                    await walk.UploadedImage.CopyToAsync(memoryStream);
                     memoryStream.Position = 0;
                     await _storage.Save(memoryStream, walk);
-                    _logger.LogInformation($"Walk: {walk.Walk}, by: {walk.Name} added.");
+                    _logger.LogInformation($"Walk: {walk.WalkName}, by: {walk.SubmittedBy} added.");
                 }
             }
             else
@@ -57,15 +57,15 @@ namespace WalksAndBenches.Services
         {
             await blob.FetchAttributesAsync();
             blob.Metadata.TryGetValue("description", out var d);
-            blob.Metadata.TryGetValue("name", out var n);
-            blob.Metadata.TryGetValue("submitter", out var s);
+            blob.Metadata.TryGetValue("walkname", out var n);
+            blob.Metadata.TryGetValue("submittedby", out var s);
 
             var walk = new WalkToDisplay()
             {
                 Description = d,
-                Walk = n,
+                WalkName = n,
                 SubmittedBy = s,
-                Url = blob.Uri
+                StorageUrl = blob.Uri
             };
             return walk;
         }
