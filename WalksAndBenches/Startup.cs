@@ -23,8 +23,6 @@ namespace WalksAndBenches
             _config = config;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BenchContext>(cfg =>
@@ -40,7 +38,6 @@ namespace WalksAndBenches
             services.AddOptions();
             services.Configure<AzureStorageConfig>(_config.GetSection("AzureStorageConfig"));
 
-            // Wire up a single instance of BlobStorage, calling Initialize() when we first use it.
             services.AddSingleton<IStorageService>(serviceProvider => {
                 var blobStorage = new BlobStorageService(serviceProvider.GetService<IOptions<AzureStorageConfig>>());
                 blobStorage.ConfigureBlobStorage().GetAwaiter().GetResult();
