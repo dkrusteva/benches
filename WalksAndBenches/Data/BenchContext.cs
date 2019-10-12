@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace WalksAndBenches.Data
 {
-    public class BenchContext : DbContext
+    public class BenchContext : IdentityDbContext<BenchUser>
     {
         public BenchContext(DbContextOptions<BenchContext> options) : base(options)
         {

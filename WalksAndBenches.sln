@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalksAndBenches", "WalksAndBenches\WalksAndBenches.csproj", "{1BC6D641-05E5-4B49-A6DF-9F7D36E69DFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalksAndBenches.UnitTests", "WalksAndBenches.UnitTests\WalksAndBenches.UnitTests.csproj", "{F94EC75E-E24E-40E4-8E14-C1AD41E19922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalksAndBenches.UnitTests", "WalksAndBenches.UnitTests\WalksAndBenches.UnitTests.csproj", "{F94EC75E-E24E-40E4-8E14-C1AD41E19922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

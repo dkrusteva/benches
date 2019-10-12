@@ -18,6 +18,13 @@
                 <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="About">About</a></li>
                 <li class="nav-item"><a class="nav-link" asp-controller="SubmitWalk" asp-action="SubmitWalk">Submit Walk</a></li>
                 <li class="nav-item"><a class="nav-link" asp-controller="Explore" asp-action="Explore">Explore</a></li>
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                }
+                else {
+                <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                }
             </ul>
         </nav>
     </header>

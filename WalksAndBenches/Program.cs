@@ -32,7 +32,7 @@ namespace WalksAndBenches
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<BenchSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync().Wait();
             }
         }
 

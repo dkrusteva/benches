@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using WalksAndBenches.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace WalksAndBenches
 {
@@ -25,6 +27,13 @@ namespace WalksAndBenches
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddIdentity<BenchUser, IdentityRole>(cfg =>
+                {
+                    cfg.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<BenchContext>();
+
             services.AddDbContext<BenchContext>(cfg =>
             {
                 string connecitonString = _config.GetConnectionString("BenchConnectionString");
@@ -59,6 +68,7 @@ namespace WalksAndBenches
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(cfg =>
             {
