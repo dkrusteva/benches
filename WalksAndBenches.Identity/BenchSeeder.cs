@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 
 namespace WalksAndBenches.Identity
