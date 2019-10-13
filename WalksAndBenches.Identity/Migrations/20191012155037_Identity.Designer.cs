@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WalksAndBenches.Data;
+using WalksAndBenches.Identity;
 
-namespace WalksAndBenches.Migrations
+namespace WalksAndBenches.Identity.Migrations
 {
     [DbContext(typeof(BenchContext))]
     [Migration("20191012155037_Identity")]
@@ -131,7 +131,7 @@ namespace WalksAndBenches.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WalksAndBenches.Data.Entities.BenchUser", b =>
+            modelBuilder.Entity("WalksAndBenches.Identity.Entities.BenchUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -186,7 +186,7 @@ namespace WalksAndBenches.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("WalksAndBenches.Data.Entities.Walks", b =>
+            modelBuilder.Entity("WalksAndBenches.Identity.Entities.Walks", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,7 +217,7 @@ namespace WalksAndBenches.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WalksAndBenches.Data.Entities.BenchUser")
+                    b.HasOne("WalksAndBenches.Identity.Entities.BenchUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -225,7 +225,7 @@ namespace WalksAndBenches.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WalksAndBenches.Data.Entities.BenchUser")
+                    b.HasOne("WalksAndBenches.Identity.Entities.BenchUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -238,7 +238,7 @@ namespace WalksAndBenches.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WalksAndBenches.Data.Entities.BenchUser")
+                    b.HasOne("WalksAndBenches.Identity.Entities.BenchUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -246,7 +246,7 @@ namespace WalksAndBenches.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WalksAndBenches.Data.Entities.BenchUser")
+                    b.HasOne("WalksAndBenches.Identity.Entities.BenchUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

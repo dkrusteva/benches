@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WalksAndBenches.Data.Entities;
+using WalksAndBenches.Identity.Entities;
 using WalksAndBenches.Models;
 
 namespace WalksAndBenches.Controllers
@@ -44,7 +44,14 @@ namespace WalksAndBenches.Controllers
 
                 if (result.Succeeded)
                 {
-                    RedirectToAction("Explore");
+                    if (Request.Query.Keys.Contains("ReturnUrl"))
+                    {
+                        return Redirect(Request.Query["ReturnUrl"].First());
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "App");
+                    }
                 }
             }
 

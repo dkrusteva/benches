@@ -1,5 +1,4 @@
-﻿using WalksAndBenches.Data.Entities;
-using WalksAndBenches.Services;
+﻿using WalksAndBenches.Identity.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 
-namespace WalksAndBenches.Data
+namespace WalksAndBenches.Identity
 {
     public class BenchSeeder
     {

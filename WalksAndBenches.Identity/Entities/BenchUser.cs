@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WalksAndBenches.Data.Entities
+namespace WalksAndBenches.Identity.Entities
 {
     public class BenchUser : IdentityUser
     {

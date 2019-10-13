@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WalksAndBenches.Migrations
+namespace WalksAndBenches.Identity.Migrations
 {
     public partial class Identity : Migration
     {

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalksAndBenches", "WalksAnd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalksAndBenches.UnitTests", "WalksAndBenches.UnitTests\WalksAndBenches.UnitTests.csproj", "{F94EC75E-E24E-40E4-8E14-C1AD41E19922}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalksAndBenches.Identity", "WalksAndBenches.Identity\WalksAndBenches.Identity.csproj", "{C637F2E6-B9B5-4CA8-BF91-0BF93AE32592}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F94EC75E-E24E-40E4-8E14-C1AD41E19922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94EC75E-E24E-40E4-8E14-C1AD41E19922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94EC75E-E24E-40E4-8E14-C1AD41E19922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C637F2E6-B9B5-4CA8-BF91-0BF93AE32592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C637F2E6-B9B5-4CA8-BF91-0BF93AE32592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C637F2E6-B9B5-4CA8-BF91-0BF93AE32592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C637F2E6-B9B5-4CA8-BF91-0BF93AE32592}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

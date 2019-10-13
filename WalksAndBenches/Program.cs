@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using WalksAndBenches.Data;
+using WalksAndBenches.Identity;
 using WalksAndBenches.Services;
 
 namespace WalksAndBenches

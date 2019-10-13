@@ -16,9 +16,7 @@
 
 
   <ItemGroup>
-    <Content Update="Data\benchwalk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\WalksAndBenches.Identity\WalksAndBenches.Identity.csproj" />
   </ItemGroup>
 
 </Project>

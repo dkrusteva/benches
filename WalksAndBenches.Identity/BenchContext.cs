@@ -1,4 +1,4 @@
-﻿using WalksAndBenches.Data.Entities;
+﻿using WalksAndBenches.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace WalksAndBenches.Data
+namespace WalksAndBenches.Identity
 {
     public class BenchContext : IdentityDbContext<BenchUser>
     {
