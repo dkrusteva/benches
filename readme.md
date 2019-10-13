@@ -8,6 +8,7 @@ This repository contains code required to run the Benches website. The website i
 - Azure Storage emulator
 - Azure Web Apps
 - Azure Storage
+- Entiy Framework
 
 ## Running the project
 
@@ -28,7 +29,7 @@ The webapp can then be run and will connect to the locally emulated azure blob s
 
 Once the app is running, it will try to create a blob container with name specified in the FileContainerName item of the appsettings. If the container does not already exist, the app with create it during StartUp. This will be the container where photos of benches are stored.
 
-## Deploy project to Azure
+## Deploying project to Azure
 
 The project can be deployed as an Azure Web App. This can be an existing Azure Web App or a brand new one. Currently, this app is deployed using deployment to local Git Repo as described here: https://docs.microsoft.com/en-gb/azure/app-service/deploy-local-git, but there are other ways to publish, such as directly from Visual Studio.
 

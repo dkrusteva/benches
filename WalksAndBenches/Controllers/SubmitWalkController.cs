@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WalksAndBenches.Controllers
 {
@@ -16,6 +17,7 @@ namespace WalksAndBenches.Controllers
             _assets = assets;
         }
 
+        [Authorize]
         [HttpGet("submitWalk")]
         public IActionResult SubmitWalk()
         {
