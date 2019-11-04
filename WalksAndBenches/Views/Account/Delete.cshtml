@@ -1,0 +1,45 @@
+﻿@model BenchUser
+@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <h4>Are you sure you want to delete user:</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-info" /> |
+            <a class="nav-link backLink" asp-controller="Account" asp-action="Admin">Back to List</a>
+        </form>
+
+    </div>
+</div>

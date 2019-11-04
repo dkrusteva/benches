@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,39 @@ namespace WalksAndBenches.Controllers
             }
             var users = await _userManager.Users.ToListAsync();
             return View(users);
+        }
+
+        [Authorize(Roles = Constants.BenchAdministratorsRole)]
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            return View(user);
+        }
+
+        [ActionName("Delete")]
+        [Authorize(Roles = Constants.BenchAdministratorsRole)]
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            return RedirectToAction("Admin", "Account");
+
         }
 
         public IActionResult AccessDenied()
@@ -85,6 +119,43 @@ namespace WalksAndBenches.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "App");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegistrationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user == null)
+                {
+                    user = new BenchUser()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        UserName = model.UserName
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        throw new InvalidOperationException("Could not create BenchUser.");
+                    }
+
+                    user = await _userManager.FindByNameAsync(model.UserName);
+                    await _userManager.AddToRoleAsync(user, Constants.BenchRegisteredUsersRole);
+                    ViewBag.UserMessage = "User Created";
+                    ModelState.Clear();
+                }
+            }
+
+            return View();
         }
     }
 }

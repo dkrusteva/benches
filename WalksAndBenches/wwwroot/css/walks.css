@@ -29,3 +29,16 @@
 .walk-button {
     display: block;
 }
+
+.result {
+    text-align: center;
+    color: green;
+}
+
+.register {
+    float: right;
+}
+
+.backLink {
+    display: inline-block
+}
