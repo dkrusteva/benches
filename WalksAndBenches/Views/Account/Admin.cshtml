@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BenchUser>
+@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-12">
+            <h3>@p.UserName</h3>
+        </div>
+    }
+</div>

@@ -27,6 +27,7 @@ namespace WalksAndBenches
                 {
                     cfg.User.RequireUniqueEmail = true;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BenchContext>();
 
             services.AddDbContext<BenchContext>(cfg =>

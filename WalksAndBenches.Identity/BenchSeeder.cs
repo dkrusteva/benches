@@ -16,18 +16,37 @@ namespace WalksAndBenches.Identity
         private readonly BenchContext _ctx;
         private readonly IHostingEnvironment _hosting;
         private readonly UserManager<BenchUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public BenchSeeder(BenchContext ctx, IHostingEnvironment hosting, UserManager<BenchUser> userManager)
+        public BenchSeeder(
+            BenchContext ctx,
+            IHostingEnvironment hosting,
+            UserManager<BenchUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _ctx = ctx;
             _hosting = hosting;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task SeedAsync()
         {
+            var users = await _userManager.Users.ToListAsync();
+
             _ctx.Database.Migrate();
             var benchesJsonPath = "D:/home/site/wwwroot";
+
+            var adminRole = Constants.BenchAdministratorsRole;
+            if (!await _roleManager.RoleExistsAsync(adminRole))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(adminRole));
+            }
+            var regUserRole = Constants.BenchRegisteredUsersRole;
+            if (!await _roleManager.RoleExistsAsync(regUserRole))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(regUserRole));
+            }
 
             var user = await _userManager.FindByEmailAsync("joebloggs@gmail.com");
             if(user == null)
@@ -46,6 +65,29 @@ namespace WalksAndBenches.Identity
                     throw new InvalidOperationException("Could not create BenchUser.");
                 }
             }
+
+            var superuser = await _userManager.FindByEmailAsync("buzzLightyear@gmail.com");
+            if (superuser == null)
+            {
+                superuser = new BenchUser()
+                {
+                    UserName = "buzzLightyear@gmail.com",
+                    FirstName = "Buzz",
+                    LastName = "Lightyear",
+                    Email = "buzzLightyear@gmail.com"
+                };
+
+                var result = await _userManager.CreateAsync(superuser, "T0y$tory");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create BenchUser.");
+                }
+            }
+
+            user = await _userManager.FindByEmailAsync("joebloggs@gmail.com");
+            await _userManager.AddToRoleAsync(user, adminRole);
+            superuser = await _userManager.FindByEmailAsync("buzzLightyear@gmail.com");
+            await _userManager.AddToRoleAsync(superuser, regUserRole);
 
             if (!_ctx.Walks.Any())
             {

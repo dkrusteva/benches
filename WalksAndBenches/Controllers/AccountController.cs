@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WalksAndBenches.Identity.Entities;
 using WalksAndBenches.Models;
+using WalksAndBenches.Identity;
 
 namespace WalksAndBenches.Controllers
 {
@@ -12,11 +16,29 @@ namespace WalksAndBenches.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly SignInManager<BenchUser> _signInManager;
+        private readonly UserManager<BenchUser> _userManager;
 
-        public AccountController(ILogger<AccountController> logger, SignInManager<BenchUser> signInManager)
+        public AccountController(ILogger<AccountController> logger, SignInManager<BenchUser> signInManager, UserManager<BenchUser> userManager)
         {
             _logger = logger;
             _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
+        [Authorize(Roles = Constants.BenchAdministratorsRole)]
+        public async Task<IActionResult> Admin()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "App");
+            }
+            var users = await _userManager.Users.ToListAsync();
+            return View(users);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("Index", "App");
         }
 
         public IActionResult Login()
