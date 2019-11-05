@@ -25,13 +25,15 @@ namespace WalksAndBenches.UnitTests.Services
         private IAssetService _target;
         private Mock<ILogger<WalksService>> _logger;
         private Mock<IStorageService> _storage;
+        private Mock<ITableStorageService> _tableStorage;
 
         [SetUp]
         public void Setup()
         {
             _logger = new Mock<ILogger<WalksService>>();
             _storage = new Mock<IStorageService>();
-            _target = new WalksService(_logger.Object, _storage.Object);
+            _tableStorage = new Mock<ITableStorageService>();
+            _target = new WalksService(_logger.Object, _storage.Object, _tableStorage.Object);
         }
 
         [Test]

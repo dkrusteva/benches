@@ -13,11 +13,13 @@ namespace WalksAndBenches.Services
     {
         private readonly ILogger<WalksService> _logger;
         private readonly IStorageService _storage;
+        private readonly ITableStorageService _tableStorage;
 
-        public WalksService(ILogger<WalksService> logger, IStorageService storage)
+        public WalksService(ILogger<WalksService> logger, IStorageService storage, ITableStorageService tableStorage)
         {
             _logger = logger;
             _storage = storage;
+            _tableStorage = tableStorage;
         }
 
         public async Task SaveWalkAsync(WalkModel walk)
@@ -50,6 +52,8 @@ namespace WalksAndBenches.Services
                 walks.Add(walk);
             }
 
+            await _tableStorage.SaveBench(new WalkToSave("Test", "testWalk"));
+
             return walks;
         }
 
@@ -68,6 +72,18 @@ namespace WalksAndBenches.Services
                 StorageUrl = blob.Uri
             };
             return walk;
+        }
+
+        private async Task<WalkToSave> MapWalkModelToWalkToSave(WalkModel walk)
+        {
+            return new WalkToSave()
+            {
+                Description = walk.Description,
+                Location = "Local",
+                SubmitterName = walk.SubmittedBy,
+                WalkName = walk.WalkName,
+                Url = "Url"
+            };
         }
     }
 }

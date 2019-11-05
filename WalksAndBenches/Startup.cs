@@ -48,6 +48,7 @@ namespace WalksAndBenches
                 blobStorage.ConfigureBlobStorage().GetAwaiter().GetResult();
                 return blobStorage;
             });
+            services.AddSingleton<ITableStorageService, TableStorageService>();
 
             services.AddMvc();
         }
