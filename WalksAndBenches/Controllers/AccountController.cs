@@ -33,7 +33,7 @@ namespace WalksAndBenches.Controllers
             {
                 return RedirectToAction("Index", "App");
             }
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.GetUsersInRoleAsync(Constants.BenchRegisteredUsersRole);
             return View(users);
         }
 
@@ -67,7 +67,6 @@ namespace WalksAndBenches.Controllers
                 await _userManager.DeleteAsync(user);
             }
             return RedirectToAction("Admin", "Account");
-
         }
 
         public IActionResult AccessDenied()
@@ -81,7 +80,7 @@ namespace WalksAndBenches.Controllers
             {
                 return RedirectToAction("Index", "App");
             }
-
+            
             return View();
         }
 

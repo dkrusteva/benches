@@ -42,3 +42,19 @@
 .backLink {
     display: inline-block
 }
+
+.nav-style {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.nav-style-permanant {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-style-loggedUser {
+    color: silver;
+}
