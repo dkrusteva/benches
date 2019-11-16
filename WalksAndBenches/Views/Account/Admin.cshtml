@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BenchUser>
+@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Email)
+                    </td>
+                    <td>
+                            
+                        <a asp-route-id="@p.Id">Edit</a>
+                        <text> | </text>
+
+                        <a asp-controller="Account" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+
+                        <text> | </text>
+                        <a asp-route-id="@p.Id">Details</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+            
+        </table>
+
+    </div>
+</div>
