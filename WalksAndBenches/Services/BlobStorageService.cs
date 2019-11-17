@@ -15,7 +15,7 @@ namespace WalksAndBenches.Services
     {
         private readonly AzureStorageConfig _storageConfig;
         private CloudBlobContainer _blobContainer;
-
+        
         public BlobStorageService(IOptions<AzureStorageConfig> storageConfig)
         {
             _storageConfig = storageConfig.Value;
@@ -65,7 +65,7 @@ namespace WalksAndBenches.Services
             return blobs;
         }
 
-        public async Task Save(Stream filestream, WalkModel model)
+        public async Task<Uri> Save(Stream filestream, WalkModel model)
         {
             CloudBlockBlob blockblob = _blobContainer.GetBlockBlobReference(model.WalkName);
 
@@ -85,7 +85,8 @@ namespace WalksAndBenches.Services
             }
 
             await blockblob.UploadFromStreamAsync(filestream);
-        }
 
+            return _blobContainer.GetBlockBlobReference(model.WalkName).Uri;
+        }
     }
 }

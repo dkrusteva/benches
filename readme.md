@@ -7,7 +7,8 @@ This repository contains code required to run the Benches website. The website i
 - .NET MVC
 - Azure Storage emulator
 - Azure Web Apps
-- Azure Storage
+- Azure Blob Storage
+- Azure Cosmos Table Storage
 - Entiy Framework
 
 ## Running the project
@@ -28,6 +29,12 @@ https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?toc=%2
 The webapp can then be run and will connect to the locally emulated azure blob storage.
 
 Once the app is running, it will try to create a blob container with name specified in the FileContainerName item of the appsettings. If the container does not already exist, the app with create it during StartUp. This will be the container where photos of benches are stored.
+
+To run the app and be able to store metadata to Azure Cosmos Table storage, forllow the instructions to install the Azure Cosmos Emulator here: https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator. Next, start the emulator from command prompt as an administrator with the following command:
+
+`CosmosDB.Emulator.exe /EnableTableEndpoint /DataPath=[LOCAL_FOLDER]`
+
+Replace [LOCAL_FOLDER] with a directory of choice. The connection string set up in the application is the only piece needed to connect to the emulated table storage.
 
 ## Deploying project to Azure
 
