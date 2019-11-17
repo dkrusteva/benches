@@ -30,8 +30,10 @@ namespace WalksAndBenches.Services
                 {
                     await walk.UploadedImage.CopyToAsync(memoryStream);
                     memoryStream.Position = 0;
-                    await _storage.Save(memoryStream, walk);
+                    var uri = await _storage.Save(memoryStream, walk);
                     _logger.LogInformation($"Walk: {walk.WalkName}, by: {walk.SubmittedBy} added.");
+                    var entity = MapWalkModelToWalkToSave(walk, uri);
+                    await _tableStorage.SaveBench(entity);
                 }
             }
             else
@@ -42,19 +44,9 @@ namespace WalksAndBenches.Services
 
         public async Task<List<WalkToDisplay>> GetWalksToDisplayAsync()
         {
-            var walks = new List<WalkToDisplay>();
-
-            var blobs = await _storage.GetBlobs();
-
-            foreach (var blob in blobs)
-            {
-                var walk = await MapBlobToWalkToDisplay(blob);
-                walks.Add(walk);
-            }
-
-            await _tableStorage.SaveBench(new WalkToSave("Test", "testWalk"));
-
-            return walks;
+            var entities = await _tableStorage.GetAllEntities();
+            var entitiesToDisplay = entities.Select(e => MapWalkToSaveToWalkToDisplay(e)).ToList();
+            return entitiesToDisplay;
         }
 
         private async Task<WalkToDisplay> MapBlobToWalkToDisplay(CloudBlockBlob blob)
@@ -74,15 +66,26 @@ namespace WalksAndBenches.Services
             return walk;
         }
 
-        private async Task<WalkToSave> MapWalkModelToWalkToSave(WalkModel walk)
+        private  WalkToSave MapWalkModelToWalkToSave(WalkModel walk, Uri uri)
         {
-            return new WalkToSave()
+            return new WalkToSave(walk.SubmittedBy, walk.WalkName)
             {
                 Description = walk.Description,
                 Location = "Local",
                 SubmitterName = walk.SubmittedBy,
                 WalkName = walk.WalkName,
-                Url = "Url"
+                Url = uri.ToString()
+            };
+        }
+
+        private WalkToDisplay MapWalkToSaveToWalkToDisplay(WalkToSave walk)
+        {
+            return new WalkToDisplay
+            {
+                Description = walk.Description,
+                SubmittedBy = walk.SubmitterName,
+                WalkName = walk.WalkName,
+                StorageUrl = new Uri(walk.Url)
             };
         }
     }

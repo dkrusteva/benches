@@ -29,6 +29,12 @@ The webapp can then be run and will connect to the locally emulated azure blob s
 
 Once the app is running, it will try to create a blob container with name specified in the FileContainerName item of the appsettings. If the container does not already exist, the app with create it during StartUp. This will be the container where photos of benches are stored.
 
+To run the app and be able to store metadata to Azure Cosmos Table storage, forllow the instructions to install the Azure Cosmos Emulator here: https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator. Next, start the emulator from command prompt as an administrator with the following command:
+
+`CosmosDB.Emulator.exe /EnableTableEndpoint /DataPath=[LOCAL_FOLDER]`
+
+Replace [LOCAL_FOLDER] with a directory of choice. The connection string set up in the application is the only piece needed to connect to the emulated table storage.
+
 ## Deploying project to Azure
 
 The project can be deployed as an Azure Web App. This can be an existing Azure Web App or a brand new one. Currently, this app is deployed using deployment to local Git Repo as described here: https://docs.microsoft.com/en-gb/azure/app-service/deploy-local-git, but there are other ways to publish, such as directly from Visual Studio.

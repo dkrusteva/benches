@@ -45,12 +45,14 @@ namespace WalksAndBenches.UnitTests.Services
                 SubmittedBy = submittedBy,
                 WalkName = walkName,
                 UploadedImage = file.Object };
+            _storage.Setup(m => m.Save(It.IsAny<Stream>(), It.IsAny<WalkModel>())).ReturnsAsync(new Uri(storageUrl));
 
             // Act
             await _target.SaveWalkAsync(walkModel);
 
             // Assert
             _storage.Verify(m => m.Save(It.IsAny<Stream>(), It.IsAny<WalkModel>()), Times.Once);
+            _tableStorage.Verify(m => m.SaveBench(It.IsAny<WalkToSave>()), Times.Once);
         }
 
         [Test]
@@ -71,14 +73,13 @@ namespace WalksAndBenches.UnitTests.Services
         public async Task GetWalksToDisplayAsync_ReturnsListOfBlobs()
         {
             // Arrange
-            var blockblob = new Mock<CloudBlockBlob>(
-                MockBehavior.Loose,
-                new Uri(storageUrl),
-                new StorageCredentials("fakeaccoutn", Convert.ToBase64String(Encoding.Unicode.GetBytes("fakekeyval")), "fakekeyname"));
-            blockblob.Object.Metadata.Add("walkname", walkName);
-            blockblob.Object.Metadata.Add("description", description);
-            blockblob.Object.Metadata.Add("submittedby", submittedBy);
-            _storage.Setup(m => m.GetBlobs()).ReturnsAsync(new List<CloudBlockBlob> { blockblob.Object });
+            var sampleEntity = new WalkToSave(submittedBy, walkName)
+            {
+                Description = description,
+                Location = "nowhere",
+                Url = storageUrl
+            };
+            _tableStorage.Setup(m => m.GetAllEntities()).ReturnsAsync(new List<WalkToSave> { sampleEntity });
 
             // Act
             var result = await _target.GetWalksToDisplayAsync();

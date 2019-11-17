@@ -9,5 +9,7 @@ namespace WalksAndBenches.Services
     public interface ITableStorageService
     {
         Task SaveBench(WalkToSave entityToSave);
+
+        Task<List<WalkToSave>> GetAllEntities();
     }
 }

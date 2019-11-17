@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using WalksAndBenches.Identity.Entities;
 using CloudTable = Microsoft.WindowsAzure.Storage.Table.CloudTable;
 using CloudTableClient = Microsoft.WindowsAzure.Storage.Table.CloudTableClient;
-
+using System.Net;
 
 namespace WalksAndBenches.Services
 {
@@ -19,9 +19,19 @@ namespace WalksAndBenches.Services
 
         public async Task SaveBench(WalkToSave entityToSave)
         {
-            await ContactTableStorage();
-        }
+            CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+            CloudTableClient tableClient = account.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference("testtable");
+            await table.CreateIfNotExistsAsync();
 
+            var result = await InsertEntity(table, entityToSave);
+
+            if(result.HttpStatusCode != (int)HttpStatusCode.NoContent)
+            {
+                throw new ApplicationException("Failed to insert entity in database.");
+            }
+        }
+ 
         private async Task ContactTableStorage()
         {
             CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
@@ -32,9 +42,9 @@ namespace WalksAndBenches.Services
             Console.WriteLine("Table created. Populating...");
             //await table.ExecuteAsync(TableOperation.Insert(new DynamicTableEntity("partitionKey", "rowKey")));
 
-            await InsertEntity(table, "A nice bench", "not far", "James", "Bench", "bb");
-            await InsertEntity(table, "Bench bench", "Bristol", "James", "Bench2", "bb2");
-            await InsertEntity(table, "It is a wooden bench", "Bristol bench shop", "Caren", "Bench3", "bb3");
+            //await InsertEntity(table, "A nice bench", "not far", "James", "Bench", "bb");
+            //await InsertEntity(table, "Bench bench", "Bristol", "James", "Bench2", "bb2");
+            //await InsertEntity(table, "It is a wooden bench", "Bristol bench shop", "Caren", "Bench3", "bb3");
 
             Console.WriteLine("Tables created and populated.");
 
@@ -57,25 +67,43 @@ namespace WalksAndBenches.Services
             Console.WriteLine("Finished reading the contents of the Lenses table...");
         }
 
-        private async Task InsertEntity(CloudTable table,
-            string descr,
-            string loc,
-            string sub,
-            string name,
-            string url)
+        public async Task<List<WalkToSave>> GetAllEntities()
+        {
+            CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+            CloudTableClient tableClient = account.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference("testtable");
+            await table.CreateIfNotExistsAsync();
+            var query = new TableQuery<WalkToSave>();
+
+            var entities = new List<WalkToSave>();
+            TableContinuationToken token = null;
+            TableQuerySegment<WalkToSave> resultSegment = null;
+
+            do
+            {
+                resultSegment = await table.ExecuteQuerySegmentedAsync<WalkToSave>(query, token);
+                entities.AddRange(resultSegment.Results.OfType<WalkToSave>());
+                token = resultSegment.ContinuationToken;
+            }
+            while (token != null);
+
+            return entities;
+        }
+
+        private async Task<TableResult> InsertEntity(CloudTable table, WalkToSave entityToSave)
         {
             // Create an entity and set properties
-            var lens = new WalkToSave(sub, name)
+            var lens = new WalkToSave(entityToSave.SubmitterName, entityToSave.WalkName)
             {
-                Description = descr,
-                Location = loc,
-                SubmitterName = sub,
-                WalkName = name,
-                Url = url
+                Description = entityToSave.Description,
+                Location = entityToSave.Location,
+                SubmitterName = entityToSave.SubmitterName,
+                WalkName = entityToSave.WalkName,
+                Url = entityToSave.Url
             };
             // Add the entity
             TableOperation insertOrMerge = TableOperation.InsertOrMerge(lens);
-            TableResult result = await table.ExecuteAsync(insertOrMerge);
+            return await table.ExecuteAsync(insertOrMerge);
         }
     }
 }
