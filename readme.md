@@ -7,7 +7,8 @@ This repository contains code required to run the Benches website. The website i
 - .NET MVC
 - Azure Storage emulator
 - Azure Web Apps
-- Azure Storage
+- Azure Blob Storage
+- Azure Cosmos Table Storage
 - Entiy Framework
 
 ## Running the project
