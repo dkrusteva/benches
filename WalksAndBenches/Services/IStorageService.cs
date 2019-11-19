@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Blob;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ namespace WalksAndBenches.Services
     public interface IStorageService
     {
         Task ConfigureBlobStorage();
-        Task<IEnumerable<string>> GetNames();
-        Task Save(Stream filestream, WalkModel model);
+
+        Task<Uri> Save(Stream filestream, WalkModel model);
+
         Task<List<CloudBlockBlob>> GetBlobs();
     }
 }

@@ -12,13 +12,32 @@
 
     <header class="container">
         <nav class="navbar navbar-dark bg-dark">
-            <h1 class="navbar-brand">Bench project - a site about walks and benches</h1>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="Index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="About">About</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="SubmitWalk">Submit Walk</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="Explore">Explore</a></li>
-            </ul>
+            <div class="nav-style">
+                <div class="nav-style-permanant">
+                    <h1 class="navbar-brand">Bench project - a site about walks and benches</h1>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="About">About</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="SubmitWalk" asp-action="SubmitWalk">Submit Walk</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Explore" asp-action="Explore">Explore</a></li>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Admin">Admin</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="nav-style-loggedUser">
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <span>Logged in as user @this.User.Identity.Name</span>
+                    }
+                </div>
+            </div>
         </nav>
     </header>
 
