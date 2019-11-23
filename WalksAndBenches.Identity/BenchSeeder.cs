@@ -32,8 +32,6 @@ namespace WalksAndBenches.Identity
 
         public async Task SeedAsync()
         {
-            var users = await _userManager.Users.ToListAsync();
-
             _ctx.Database.Migrate();
             var benchesJsonPath = "D:/home/site/wwwroot";
 
