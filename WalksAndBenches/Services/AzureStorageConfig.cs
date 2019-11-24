@@ -8,6 +8,8 @@ namespace WalksAndBenches.Services
     public class AzureStorageConfig
     {
         public string ConnectionString { get; set; }
+        public string TableConnectionString { get; set; }
         public string FileContainerName { get; set; }
+        public string MetadataTableName { get; set; }
     }
 }

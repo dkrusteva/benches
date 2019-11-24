@@ -9,19 +9,31 @@ using WalksAndBenches.Identity.Entities;
 using CloudTable = Microsoft.WindowsAzure.Storage.Table.CloudTable;
 using CloudTableClient = Microsoft.WindowsAzure.Storage.Table.CloudTableClient;
 using System.Net;
+using Microsoft.Extensions.Options;
 
 namespace WalksAndBenches.Services
 {
     public class TableStorageService : ITableStorageService
     {
+        private readonly AzureStorageConfig _storageConfig;
 
-        private const string connectionString = "DefaultEndpointsProtocol=http;AccountName=localhost;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;TableEndpoint=http://localhost:8902/;";
+        public TableStorageService(IOptions<AzureStorageConfig> storageConfig)
+        {
+            _storageConfig = storageConfig.Value;
+        }
+        private async Task ContactTableStorage()
+        {
+            CloudStorageAccount account = CloudStorageAccount.Parse(_storageConfig.TableConnectionString);
+            CloudTableClient tableClient = account.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference(_storageConfig.MetadataTableName);
+            await table.CreateIfNotExistsAsync();
+        }
 
         public async Task SaveBench(WalkToSave entityToSave)
         {
-            CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+            CloudStorageAccount account = CloudStorageAccount.Parse(_storageConfig.TableConnectionString);
             CloudTableClient tableClient = account.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("testtable");
+            CloudTable table = tableClient.GetTableReference(_storageConfig.MetadataTableName);
             await table.CreateIfNotExistsAsync();
 
             var result = await InsertEntity(table, entityToSave);
@@ -31,47 +43,12 @@ namespace WalksAndBenches.Services
                 throw new ApplicationException("Failed to insert entity in database.");
             }
         }
- 
-        private async Task ContactTableStorage()
-        {
-            CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-            CloudTableClient tableClient = account.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("testtable");
-            await table.CreateIfNotExistsAsync();
-
-            Console.WriteLine("Table created. Populating...");
-            //await table.ExecuteAsync(TableOperation.Insert(new DynamicTableEntity("partitionKey", "rowKey")));
-
-            //await InsertEntity(table, "A nice bench", "not far", "James", "Bench", "bb");
-            //await InsertEntity(table, "Bench bench", "Bristol", "James", "Bench2", "bb2");
-            //await InsertEntity(table, "It is a wooden bench", "Bristol bench shop", "Caren", "Bench3", "bb3");
-
-            Console.WriteLine("Tables created and populated.");
-
-            await ReadTable(table);
-
-        }
-
-        private async Task ReadTable(CloudTable table)
-        {
-            // Read the table and display it here.
-            Console.WriteLine("Reading the contents of the Lenses table...");
-
-            var retrieveOperation = TableOperation.Retrieve<WalkToSave>("James", "Bench");
-            var result = await table.ExecuteAsync(retrieveOperation);
-            var bench = result.Result as WalkToSave;
-
-
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 10} | {3, 10} |", "Author", "Entry name", "Location", "Url");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 10} | {3, 10} |", bench.SubmitterName, bench.WalkName, bench.Location, bench.Url);
-            Console.WriteLine("Finished reading the contents of the Lenses table...");
-        }
 
         public async Task<List<WalkToSave>> GetAllEntities()
         {
-            CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+            CloudStorageAccount account = CloudStorageAccount.Parse(_storageConfig.TableConnectionString);
             CloudTableClient tableClient = account.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("testtable");
+            CloudTable table = tableClient.GetTableReference(_storageConfig.MetadataTableName);
             await table.CreateIfNotExistsAsync();
             var query = new TableQuery<WalkToSave>();
 
