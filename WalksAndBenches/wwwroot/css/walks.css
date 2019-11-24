@@ -13,10 +13,6 @@
 }
 
 .img-explore {
-    position: relative;
-    float: left;
-    max-width: 400px;
-    height: 300px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -45,16 +41,17 @@
 
 .nav-style {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     width: 100%;
+    justify-content: space-between;
 }
 
-.nav-style-permanant {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.nav-style-menu {
+    justify-content: space-around;
+    width: 100%;
 }
 
 .nav-style-loggedUser {
     color: silver;
+    align-self: center;
 }
