@@ -13,40 +13,38 @@
 
     <header class="container">
         <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <div class="nav-style">
-                <div class="nav-style-brand">
-                    <h1 class="navbar-brand">Benches project</h1>
-                </div>
-                <span class="nav-style-loggedUser">
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <span>Logged in as user @this.User.Identity.Name</span>
-                    }
-                </span>
+            <div class="navbar-header">
+                <h1 class="navbar-brand"><a class="nav-link" asp-controller="App" asp-action="Index">Benches project</a></h1>
                 <button class="navbar-toggler" data-toggle="collapse" data-target="#menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <ul id="menu" class="navbar-nav nav-style-menu navbar-collapse collapse">
-                    <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="About">About</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="SubmitWalk" asp-action="SubmitWalk">Submit Walk</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Explore" asp-action="Explore">Explore</a></li>
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Admin">Admin</a></li>
-                    }
-                    else
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
-                    }
-                </ul>
             </div>
+            <span class="">
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <span>Logged in as user @this.User.Identity.Name</span>
+                }
+            </span>
+            <ul id="menu" class="navbar-nav navbar-collapse collapse">
+                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="Index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="App" asp-action="About">About</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="SubmitWalk" asp-action="SubmitWalk">Submit Walk</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Explore" asp-action="Explore">Explore</a></li>
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Admin">Admin</a></li>
+                }
+                else
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                }
+            </ul>
         </nav>
+        <h2 class="jumbotron text-center">@ViewBag.Title</h2>
     </header>
 
     <section class="container mt-md-4">
-        <h2 class="jumbotron text-center">@ViewBag.Title</h2>
         @RenderBody()
     </section>
 

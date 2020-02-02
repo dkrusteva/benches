@@ -2,26 +2,54 @@
     ViewBag.Title = "For people who love benches";
 }
 
+<div class="row">
+    <div class="col-12">
+        <img class="img-fluid banner-image" src="~/images/geograph-3016886-by-Lewis-Clarke-culm.jpg" />
+    </div>
+</div>
+
+<div class="blog-posts">
     <div class="row">
-        <div class="col-12 col-sm-6">
-            <img class="img-fluid" src="~/images/cotswolds.jpg" style="width: 500px;" />
-            <h3>Cotswolds walking</h3>
-            <ul>
-                <li>Place: Cotswolds</li>
-                <li>Walk: Circular</li>
-                <li>Sights: countryside, small villages</li>
-            </ul>
-            <!--<button class="btn btn-success">View</button>-->
+        <div class="col-12"><h2>Recent Posts</h2></div>
+        <div class="col-4">
+            <img class="img-fluid" src="~/images/garden.png" />
+            <div class="post-content">
+                <h4>Building a bench</h4>
+                <ul>
+                    <li>Type: Garden bench</li>
+                    <li>Material: Softwood (Pine)</li>
+                    <li>Indoor/Outdoor: Outdoor</li>
+                </ul>
+                <p>My dad built two beautiful benches over the course of a summer. Careful planning was key. Now they are the centerpiece of the garden.</p>
+                <!--<button class="btn btn-success">View</button>-->
+            </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <img class="img-fluid" src="~/images/bench.jpg" style="width: 500px;" />
-            <h3>Taking a break</h3>
-            <ul>
-                <li>Place: Cotswolds walk break points</li>
-                <li>Distance: 5km from start</li>
-                <li>Local amenities: cafe</li>
-            </ul>
-            <!--<button class="btn btn-success">View</button>-->
+        <div class="col-4">
+            <img class="img-fluid banner-image" src="~/images/hike.jpg" />
+            <div class="post-content">
+                <h4>A bench to rest at while hiking in the mountains</h4>
+                <ul>
+                    <li>Location: Vitosha mountain, Bulgaria</li>
+                    <li>Activity: Rested there during a hike</li>
+                    <li>Sights: mountain, valley</li>
+                </ul>
+                <p>We found this bench on a cold November morning, while hiking in the Vitosha mountain. The bench has an inscription inviting people to rest on it and reflect.</p>
+                <!--<button class="btn btn-success">View</button>-->
+            </div>
+        </div>
+        <div class="col-4">
+            <img class="img-fluid" src="~/images/special.png" />
+            <div class="post-content">
+                <h4>A bench to remember</h4>
+                <p>For some people benches are a special place to meet, spend time with friends and family and enjoy the outdoors.</p>
+                <!--<button class="btn btn-success">View</button>-->
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="more-posts-btn">
+                <a asp-controller="Explore" asp-action="Explore" class="btn btn-danger" role="button">Explore recent posts</a>
+            </div>
         </div>
     </div>
+</div>
 

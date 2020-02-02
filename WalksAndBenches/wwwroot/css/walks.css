@@ -1,7 +1,13 @@
 ﻿body {
 }
 
+.jumbotron {
+    margin-bottom: 0;
+}
 
+.container {
+    margin-top: 0px !important;
+}
 
 .img-responsive {
     width: auto;
@@ -45,13 +51,33 @@
     width: 100%;
     justify-content: space-between;
 }
-
-.nav-style-menu {
-    justify-content: space-around;
-    width: 100%;
+.menu-divider {
+    color: white;
 }
 
 .nav-style-loggedUser {
     color: silver;
     align-self: center;
+}
+
+.banner-image {
+    width: 100%;
+}
+
+.blog-posts {
+    margin-top: 50px;
+}
+
+.post-content {
+    padding: 10px 20px 0px 20px;    
+}
+
+.more-posts-btn {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.navbar-brand a {
+    color: white;
 }
